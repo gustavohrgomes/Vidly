@@ -17,5 +17,22 @@ namespace Vidly.Controllers
 
             return View(movie);
         }
+
+        public ActionResult Edit(int movieId)
+        {
+            return Content("id= " + movieId);
+        }
+
+        // movies
+        public ActionResult Index(int? pageIndex, string sortBy)
+        {
+            if (!pageIndex.HasValue)
+                pageIndex = 1;
+
+            if (string.IsNullOrWhiteSpace(sortBy))
+                sortBy = "Name";
+
+            return Content(string.Format("pageIndex={0}&sortBy={1}", pageIndex, sortBy));
+        }
     }
 }
