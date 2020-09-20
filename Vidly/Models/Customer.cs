@@ -10,12 +10,12 @@ namespace Vidly.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Por favor, preencha o campo Name!")]
         [StringLength(255)]
         public string Name { get; set; }
 
         [Display(Name = "Date of Birth")]
-        [DisplayFormat(DataFormatString = "{0}:dd/MM/yyyy")]
+        [Min18YearsIfAMember]
         public DateTime? BirthDate { get; set; }
 
         public bool IsSubscribedToNewsletter { get; set; }
