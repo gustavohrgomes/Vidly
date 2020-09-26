@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Security;
 using Vidly.Models;
 using Vidly.ViewModels;
 
@@ -18,16 +19,21 @@ namespace Vidly.Controllers
             _context = new ApplicationDbContext();
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
         // GET: Movies
         public ViewResult Index()
         {
-            var movies = _context.Movies
-                .Include(movie => movie.Genre)
-                .ToList();
-
-            return View(movies);
+            if (User.IsInRole(RoleName.CanManageMovies))
+                return View("Index");
+            
+            return View("ReadOnlyIndex");
         }
 
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ViewResult New()
         {
             var genres = _context.Genres.ToList();
