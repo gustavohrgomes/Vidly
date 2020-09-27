@@ -243,6 +243,10 @@
     <Compile Include="Migrations\202009271445215_AddDrivingLicenseToApplicationUser.Designer.cs">
       <DependentUpon>202009271445215_AddDrivingLicenseToApplicationUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009271535110_AddPhoneNumberToApplicationUser.cs" />
+    <Compile Include="Migrations\202009271535110_AddPhoneNumberToApplicationUser.Designer.cs">
+      <DependentUpon>202009271535110_AddPhoneNumberToApplicationUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -256,8 +260,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CustomerFormViewModel.cs" />
+    <Compile Include="ViewModels\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="ViewModels\MovieFormViewModel.cs" />
     <Compile Include="ViewModels\RandomMovieViewModel.cs" />
+    <Compile Include="ViewModels\RegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\aspnet-Vidly-20200914053451.mdf" />
@@ -555,6 +561,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009271445215_AddDrivingLicenseToApplicationUser.resx">
       <DependentUpon>202009271445215_AddDrivingLicenseToApplicationUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009271535110_AddPhoneNumberToApplicationUser.resx">
+      <DependentUpon>202009271535110_AddPhoneNumberToApplicationUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
