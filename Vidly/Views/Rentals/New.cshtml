@@ -1,7 +1,5 @@
 ﻿
-@{
-    ViewBag.Title = "New Rental Form";
-}
+@{ ViewBag.Title = "New Rental Form"; }
 
 <h2>New Rental</h2>
 
@@ -9,14 +7,14 @@
     <div class="form-group">
         <label>Customer</label>
         <div class="tt-container">
-            <input id="customer" type="text" value="" class="form-control" />
+            <input id="customer" class="form-control" name="customer" type="text" data-rule-validCustomer="true" required />
         </div>
     </div>
 
     <div class="form-group">
         <label>Movie</label>
         <div class="tt-container">
-            <input id="movie" type="text" value="" class="form-control" />
+            <input id="movie" class="form-control" name="movie" type="text" data-rule-atLeastOneMovie="true"/>
         </div>
     </div>
 
@@ -29,8 +27,10 @@
     <button class="btn btn-primary">Submit</button>
 </form>
 
-@section scripts 
+@section scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
+
     <script>
         $(document).ready(function () {
 
@@ -71,7 +71,7 @@
             $('#movie').typeahead({
                 minLength: 3,
                 highlight: true
-            },{
+            }, {
                 name: 'movies',
                 display: 'name',
                 source: movies,
@@ -83,21 +83,39 @@
                 viewModel.movieIds.push(movie.id);
             });
 
-            $("#newRental").submit(function (e) {
-                e.preventDefault();
+            $.validator.addMethod("validCustomer", function () {
+                return viewModel.customerId && viewModel.customerId !== 0;
+            }, "Please, select a valid customer.");
 
-                $.ajax({
-                    url: "/api/newRentals",
-                    method: "POST",
-                    data: viewModel
-                })
-                .done(function () {
-                    console.log("Done");
-                })
-                .fail(function () {
+            $.validator.addMethod("atLeastOneMovie", function () {
+                return viewModel.movieIds.length > 0;
+            }, "Please, select at least one movie.");
 
-                })
-            })
+            var validator = $("#newRental").validate({
+                submitHandler: function () {
+                    $.ajax({
+                        url: "/api/newRentals",
+                        method: "POST",
+                        data: viewModel
+                    })
+                    .done(function () {
+                        toastr.success("Rentals successfully recorded!");
+
+                        $("#customer").typeahead("val", "");
+                        $("#movie").typeahead("val", "");
+                        $("#movies").empty();
+
+                        viewModel = { movieIds: [] };
+
+                        validator.resetForm();
+                    })
+                    .fail(function () {
+                        toastr.error("Something went wrong!");
+                    })
+
+                    return false;
+                }
+            });
         });
     </script>
 }
